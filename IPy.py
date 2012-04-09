@@ -243,9 +243,6 @@ class IPint:
             if make_net:
                 self.ip = self.ip & _prefixlenToNetmask(self._prefixlen, self._ipversion)
 
-            if not _checkNetaddrWorksWithPrefixlen(self.ip,
-            self._prefixlen, self._ipversion):
-                raise ValueError("%s has invalid prefix length (%s)" % (repr(self), self._prefixlen))
         else:
             raise TypeError("Unsupported data type: %s" % type(data))
 
@@ -281,7 +278,7 @@ class IPint:
         """
         Return the base (first) address of a network as an (long) integer.
         """
-        return self.int()
+        return self.int() & _prefixlenToNetmask(self._prefixlen, self._ipversion)
 
     def broadcast(self):
         """
